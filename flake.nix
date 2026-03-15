@@ -13,9 +13,13 @@
       url = "git+https://git.outfoxxed.me/quickshell/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    maccel = {
+      url = "github:Gnarus-G/maccel";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, maccel, ... }@inputs:
   let
     
     mkHost = hostName: username: nixpkgs.lib.nixosSystem {
@@ -27,6 +31,7 @@
       }
       ./hosts/${hostName}/configuration.nix
         home-manager.nixosModules.home-manager
+        maccel.nixosModules.default
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;

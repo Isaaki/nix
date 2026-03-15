@@ -122,7 +122,7 @@
     xdgOpenUsePortal = true;
     config = {
       common.default = [ "gnome" "gtk" ];
-      niri.default = [ "gnome" "gtk" ];
+      niri.default = [ "niri" "gnome" "gtk" ];
       "org.freedesktop.impl.portal.FileChooser" = [ "kde" ];
     };
     extraPortals = [
@@ -130,20 +130,6 @@
       pkgs.xdg-desktop-portal-gnome
       pkgs.kdePackages.xdg-desktop-portal-kde
     ];
-  };
-
-  systemd.user.services.polkit-gnome-authentication-agent-1 = {
-    description = "polkit-gnome-authentication-agent-1";
-    wantedBy = [ "graphical-session.target" ];
-    wants = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-      Restart = "on-failure";
-      RestartSec = 1;
-      TimeoutStopSec = 10;
-    };
   };
 
   system.stateVersion = "25.11";

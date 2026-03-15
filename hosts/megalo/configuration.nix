@@ -114,6 +114,19 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
+  # Mouse Acceleration (maccel)
+  # hardware.maccel = {
+  #   enable = true;
+  #   enableCli = true; # Installs 'maccel' for use with 'maccel tui'
+  #   parameters = {
+  #     mode = "linear";
+  #     sensMultiplier = 1.0;
+  #     acceleration = 0.3;
+  #     offset = 2.0;
+  #     outputCap = 2.0;
+  #   };
+  # };
+
   # Enable Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -123,27 +136,13 @@
     xdgOpenUsePortal = true;
     config = {
       common.default = [ "gnome" "gtk" ];
-      niri.default = [ "gnome" "gtk" ];
+      niri.default = [ "niri" "gnome" "gtk" ];
     };
     extraPortals = [
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-gnome
       pkgs.kdePackages.xdg-desktop-portal-kde
     ];
-  };
-
-  systemd.user.services.polkit-gnome-authentication-agent-1 = {
-    description = "polkit-gnome-authentication-agent-1";
-    wantedBy = [ "graphical-session.target" ];
-    wants = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-      Restart = "on-failure";
-      RestartSec = 1;
-      TimeoutStopSec = 10;
-    };
   };
 
   system.stateVersion = "25.11";

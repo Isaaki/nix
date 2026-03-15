@@ -31,13 +31,15 @@
     swaybg
     cliphist
     kdePackages.qt6ct
+    kdePackages.qtmultimedia # Dependency for dms-shell
+    kdePackages.breeze
+    kdePackages.breeze-icons
     libsForQt5.qt5ct
     kdePackages.qtstyleplugin-kvantum
     libsForQt5.qtstyleplugin-kvantum
     adw-gtk3
     nwg-look
     gnome-themes-extra
-    kdePackages.kdeconnect-kde
 
     # --- Terminal ---
     kitty
@@ -122,7 +124,35 @@
   services.kdeconnect = {
     enable = true;
     indicator = true;
+    package = pkgs.kdePackages.kdeconnect-kde;
   };
+
+  # Polkit Agent (Moved from configuration.nix and made more robust)
+  systemd.user.services.polkit-gnome-authentication-agent-1 = {
+    Unit = {
+      Description = "polkit-gnome-authentication-agent-1";
+      Wants = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      Restart = "on-failure";
+      RestartSec = 1;
+      TimeoutStopSec = 10;
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
+
+  # Robust autostart for KDE Connect (ensures it starts even if graphical-session.target isn't reached)
+  systemd.user.services.kdeconnect.Install.WantedBy = lib.mkForce [ "default.target" ];
+  systemd.user.services.kdeconnect-indicator.Install.WantedBy = lib.mkForce [ "default.target" ];
+
+  # Ensure graphical-session.target is started for services that depend on it
+  # This is often needed in Wayland compositors like Niri
+  systemd.user.startServices = "sd-switch";
 
   # GTK & Qt Theming
   gtk = {
@@ -142,6 +172,7 @@
     QT_QPA_PLATFORMTHEME = lib.mkForce "qt6ct";
     QT_QPA_PLATFORMTHEME_QT6 = lib.mkForce "qt6ct";
     QT_QPA_PLATFORM = "wayland;xcb";
+    XDG_CURRENT_DESKTOP = "niri";
     ELECTRON_OZONE_PLATFORM_HINT = "auto";
   };
 }
