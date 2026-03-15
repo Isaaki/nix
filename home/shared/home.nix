@@ -31,6 +31,11 @@
     swaybg
     cliphist
 
+    # --- Terminal ---
+    kitty
+    alacritty
+    ghostty
+
     # --- Development Tools ---
     godot_4
     kicad

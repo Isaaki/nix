@@ -74,6 +74,9 @@
     kdePackages.ksystemlog # System log viewer
     kdePackages.sddm-kcm # SDDM configuration module
     kdiff3 # File/directory comparison tool
+
+    # Polkit
+    polkit_gnome
     
     # Hardware/System Utilities (Optional)
     kdePackages.isoimagewriter # Write hybrid ISOs to USB
@@ -118,6 +121,21 @@
       pkgs.xdg-desktop-portal-gnome
       pkgs.kdePackages.xdg-desktop-portal-kde
     ];
+  };
+
+
+  systemd.user.services.polkit-gnome-authentication-agent-1 = {
+    description = "polkit-gnome-authentication-agent-1";
+    wantedBy = [ "graphical-session.target" ];
+    wants = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      Restart = "on-failure";
+      RestartSec = 1;
+      TimeoutStopSec = 10;
+    };
   };
 
   system.stateVersion = "25.11";
