@@ -13,9 +13,9 @@
     chromium
     discord
     slack
-    stremio
+    # stremio
     obsidian
-    youtube-music
+    pear-desktop
     plexamp
     libreoffice-fresh
     obs-studio
@@ -30,14 +30,12 @@
     xwayland-satellite
     swaybg
     cliphist
-    kdePackages.dolphin
-    kdePackages.polkit-kde-agent-1
 
     # --- Development Tools ---
     godot_4
     kicad
     distrobox
-    wineWowPackages.stable
+    wineWow64Packages.stable
     winetricks
     rustup
     zig
@@ -67,7 +65,6 @@
     cava
     trash-cli
     fuzzel
-    rofi-wayland
     waybar
     dunst
     libnotify

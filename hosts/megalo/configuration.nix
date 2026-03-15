@@ -20,13 +20,6 @@
   # Desktop Environments / Compositors
   services.xserver.enable = true;
 
-  # Use the new Plasma Login Manager instead of SDDM
-  services.displayManager.sddm.enable = false;
-  services.displayManager.plasma-login-manager = {
-    enable = true;
-    wayland.enable = true; # Explicitly enable Wayland for the login manager
-  };
-
   # Set global environment variables for Wayland
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1"; # Hint for Electron/Chromium apps to use Wayland
@@ -38,7 +31,13 @@
     QT_QPA_PLATFORMTHEME = "qt6ct";
   };
 
-  services.desktopManager.plasma6.enable = true;
+  services = {
+    desktopManager.plasma6.enable = true;
+    displayManager.sddm.enable = true;
+    displayManager.sddm.wayland.enable = true;
+  };
+
+  programs.fish.enable = true;
 
   programs.niri.enable = true;
   programs.dms-shell = {
@@ -64,7 +63,24 @@
     pciutils
     usbutils
     wirelesstools
-    kdePackages.plasma-login-manager-kcm # Configuration module for PLM
+
+    # KDE Utilities
+    kdePackages.discover # Optional: Software center for Flatpaks/firmware updates
+    kdePackages.kcalc # Calculator
+    kdePackages.kcharselect # Character map
+    kdePackages.kclock # Clock app
+    kdePackages.kcolorchooser # Color picker
+    kdePackages.kolourpaint # Simple paint program
+    kdePackages.ksystemlog # System log viewer
+    kdePackages.sddm-kcm # SDDM configuration module
+    kdiff3 # File/directory comparison tool
+    
+    # Hardware/System Utilities (Optional)
+    kdePackages.isoimagewriter # Write hybrid ISOs to USB
+    kdePackages.partitionmanager # Disk and partition management
+    hardinfo2 # System benchmarks and hardware info
+    wayland-utils # Wayland diagnostic tools
+    wl-clipboard # Wayland copy/paste support
   ];
 
   # Enable Steam
@@ -96,7 +112,6 @@
     config = {
       common.default = [ "gnome" "gtk" ];
       niri.default = [ "gnome" "gtk" ];
-      "org.freedesktop.impl.portal.FileChooser" = [ "kde" ];
     };
     extraPortals = [
       pkgs.xdg-desktop-portal-gtk

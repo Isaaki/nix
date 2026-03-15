@@ -12,11 +12,15 @@
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
   let
+    
     mkHost = hostName: username: nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs hostName username; };
       modules = [
-        ./hosts/${hostName}/configuration.nix
+      {
+	nixpkgs.config.allowUnfree = true;
+      }
+      ./hosts/${hostName}/configuration.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
