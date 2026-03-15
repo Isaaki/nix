@@ -1,4 +1,4 @@
-{ config, pkgs, username, hostName, ... }:
+{ config, pkgs, lib, username, hostName, ... }:
 
 {
   home.username = username;
@@ -13,7 +13,7 @@
     chromium
     discord
     slack
-    # stremio
+    stremio-linux-shell
     obsidian
     pear-desktop
     plexamp
@@ -25,11 +25,19 @@
     pinta
     qimgv
 
-    # --- Niri & Wayland ---
+    # --- Wayland & Theming ---
     niri
     xwayland-satellite
     swaybg
     cliphist
+    kdePackages.qt6ct
+    libsForQt5.qt5ct
+    kdePackages.qtstyleplugin-kvantum
+    libsForQt5.qtstyleplugin-kvantum
+    adw-gtk3
+    nwg-look
+    gnome-themes-extra
+    kdePackages.kdeconnect-kde
 
     # --- Terminal ---
     kitty
@@ -51,6 +59,7 @@
     lazygit
     nodejs
     python3
+    gemini-cli
 
     # --- Modern CLI Utils ---
     btop
@@ -109,4 +118,30 @@
   };
 
   programs.home-manager.enable = true;
+
+  services.kdeconnect = {
+    enable = true;
+    indicator = true;
+  };
+
+  # GTK & Qt Theming
+  gtk = {
+    enable = true;
+    theme = {
+      name = "adw-gtk3";
+      package = pkgs.adw-gtk3;
+    };
+  };
+
+  # qt = {
+  #   enable = true;
+  #   platformTheme.name = "qtct";
+  # };
+
+  home.sessionVariables = {
+    QT_QPA_PLATFORMTHEME = lib.mkForce "qt6ct";
+    QT_QPA_PLATFORMTHEME_QT6 = lib.mkForce "qt6ct";
+    QT_QPA_PLATFORM = "wayland;xcb";
+    ELECTRON_OZONE_PLATFORM_HINT = "auto";
+  };
 }

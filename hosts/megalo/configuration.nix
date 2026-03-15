@@ -1,4 +1,4 @@
-{ config, pkgs, username, ... }:
+{ config, pkgs, username, inputs, ... }:
 
 {
   imports = [
@@ -23,12 +23,9 @@
   # Set global environment variables for Wayland
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1"; # Hint for Electron/Chromium apps to use Wayland
-    ELECTRON_OZONE_PLATFORM_HINT = "auto";
     XDG_SESSION_TYPE = "wayland";
     GDK_BACKEND = "wayland";
     MOZ_ENABLE_WAYLAND = "1"; # Wayland for Firefox
-    QT_QPA_PLATFORM = "wayland;xcb";
-    QT_QPA_PLATFORMTHEME = "qt6ct";
   };
 
   services = {
@@ -40,11 +37,23 @@
   programs.fish.enable = true;
 
   programs.niri.enable = true;
+  programs.kdeconnect.enable = true;
   programs.dms-shell = {
     enable = true;
+    quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
     systemd.enable = true;
     systemd.restartIfChanged = true;
+
+    # Core features
+    enableSystemMonitoring = true;     # System monitoring widgets (dgop)
+    enableVPN = true;                  # VPN management widget
+    enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
+    enableAudioWavelength = true;      # Audio visualizer (cava)
+    enableCalendarEvents = true;       # Calendar integration (khal)
+    enableClipboardPaste = true;       # Pasting from the clipboard history (wtype)
   };
+
+  systemd.user.services.dms.serviceConfig.Environment = [ "QT_QPA_PLATFORMTHEME=qt6ct" ];
 
   # Configure User
   users.users.${username} = {
@@ -77,7 +86,7 @@
 
     # Polkit
     polkit_gnome
-    
+
     # Hardware/System Utilities (Optional)
     kdePackages.isoimagewriter # Write hybrid ISOs to USB
     kdePackages.partitionmanager # Disk and partition management
@@ -122,7 +131,6 @@
       pkgs.kdePackages.xdg-desktop-portal-kde
     ];
   };
-
 
   systemd.user.services.polkit-gnome-authentication-agent-1 = {
     description = "polkit-gnome-authentication-agent-1";
