@@ -1,136 +1,103 @@
-{ config, pkgs, username, inputs, ... }:
+{ config, pkgs, lib, username, inputs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
   ];
 
-  # Bootloader (Limine)
-  boot.loader.systemd-boot.enable = false;
-  boot.loader.limine.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    systemd-boot.enable = false;
+    limine.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
 
   networking.hostName = "nixos-hadro";
   networking.networkmanager.enable = true;
 
-  # Timezone and Locale
-  time.timeZone = "UTC"; # Replace with your timezone
+  time.timeZone = "UTC";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Desktop Environments / Compositors
-  services.xserver.enable = true;
-
-  # Use the new Plasma Login Manager instead of SDDM
-  services.displayManager.sddm.enable = false;
-  services.displayManager.plasma-login-manager = {
-    enable = true;
-    wayland.enable = true; # Explicitly enable Wayland for the login manager
+  services = {
+    xserver.enable = true;
+    xserver.videoDrivers = [ "nvidia" ];
+    desktopManager.plasma6.enable = true;
+    displayManager.plasma-login-manager = {
+      enable = true;
+      wayland.enable = true;
+    };
   };
 
-  # Set global environment variables for Wayland
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1"; # Hint for Electron/Chromium apps to use Wayland
-    XDG_SESSION_TYPE = "wayland";
-    GDK_BACKEND = "wayland";
-    MOZ_ENABLE_WAYLAND = "1"; # Wayland for Firefox
+  programs = {
+    fish.enable = true;
+    niri.enable = true;
+    kdeconnect.enable = true;
+    dms-shell = {
+      enable = true;
+      quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
+      systemd.enable = true;
+      systemd.restartIfChanged = true;
+      enableSystemMonitoring = true;
+      enableVPN = true;
+      enableDynamicTheming = true;
+      enableAudioWavelength = true;
+      enableCalendarEvents = true;
+      enableClipboardPaste = true;
+    };
   };
 
-  services.desktopManager.plasma6.enable = true;
+  environment = {
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      XDG_SESSION_TYPE = "wayland";
+      GDK_BACKEND = "wayland";
+      MOZ_ENABLE_WAYLAND = "1";
+      XDG_MENU_PREFIX = "plasma-";
+    };
 
-  programs.fish.enable = true;
+    etc."xdg/menus/applications.menu".source = "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";
 
-  programs.niri.enable = true;
-  programs.kdeconnect.enable = true;
-  programs.dms-shell = {
+    systemPackages = with pkgs; [
+      git vim curl wget pciutils usbutils wirelesstools
+      kdePackages.discover
+      kdePackages.kcalc
+      kdePackages.kcharselect
+      kdePackages.kclock
+      kdePackages.kcolorchooser
+      kdePackages.kolourpaint
+      kdePackages.ksystemlog
+      kdePackages.sddm-kcm
+      kdiff3
+      polkit_gnome
+      kdePackages.isoimagewriter
+      kdePackages.partitionmanager
+      hardinfo2
+      wayland-utils
+      wl-clipboard
+      kdePackages.plasma-login-manager-kcm
+    ];
+  };
+
+  xdg.portal = {
     enable = true;
-    quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
-    systemd.enable = true;
-    systemd.restartIfChanged = true;
-
-    # Core features
-    enableSystemMonitoring = true;     # System monitoring widgets (dgop)
-    enableVPN = true;                  # VPN management widget
-    enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
-    enableAudioWavelength = true;      # Audio visualizer (cava)
-    enableCalendarEvents = true;       # Calendar integration (khal)
-    enableClipboardPaste = true;       # Pasting from the clipboard history (wtype)
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config.niri.default = lib.mkForce [ "kde" "gnome" "gtk" ];
   };
 
   systemd.user.services.dms.serviceConfig.Environment = [ "QT_QPA_PLATFORMTHEME=qt6ct" ];
 
-  # Configure User
   users.users.${username} = {
     isNormalUser = true;
-    description = "${username}";
     extraGroups = [ "networkmanager" "wheel" "video" "audio" ];
     shell = pkgs.fish;
   };
 
-  # System Packages
-  environment.systemPackages = with pkgs; [
-    git
-    vim
-    curl
-    wget
-    pciutils
-    usbutils
-    wirelesstools
-
-    # KDE Utilities
-    kdePackages.discover # Optional: Software center for Flatpaks/firmware updates
-    kdePackages.kcalc # Calculator
-    kdePackages.kcharselect # Character map
-    kdePackages.kclock # Clock app
-    kdePackages.kcolorchooser # Color picker
-    kdePackages.kolourpaint # Simple paint program
-    kdePackages.ksystemlog # System log viewer
-    kdePackages.sddm-kcm # SDDM configuration module
-    kdiff3 # File/directory comparison tool
-
-    # Polkit
-    polkit_gnome
-
-    # Hardware/System Utilities (Optional)
-    kdePackages.isoimagewriter # Write hybrid ISOs to USB
-    kdePackages.partitionmanager # Disk and partition management
-    hardinfo2 # System benchmarks and hardware info
-    wayland-utils # Wayland diagnostic tools
-    wl-clipboard # Wayland copy/paste support
-
-    # Work specific
-    kdePackages.plasma-login-manager-kcm # Configuration module for PLM
-  ];
-
-  # Nvidia Drivers (RTX 3080)
-  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    # Use the open kernel module for modern cards (30xx series)
     open = true;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
-  # Enable Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # XDG Portals
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    config = {
-      common.default = [ "gnome" "gtk" ];
-      niri.default = [ "niri" "gnome" "gtk" ];
-      "org.freedesktop.impl.portal.FileChooser" = [ "kde" ];
-    };
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-gnome
-      pkgs.kdePackages.xdg-desktop-portal-kde
-    ];
-  };
-
   system.stateVersion = "25.11";
 }
