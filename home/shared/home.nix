@@ -1,4 +1,10 @@
-{ config, pkgs, lib, username, hostName, ... }:
+{
+  pkgs,
+  lib,
+  username,
+  hostName,
+  ...
+}:
 
 {
   home = {
@@ -6,97 +12,113 @@
     homeDirectory = "/home/${username}";
     stateVersion = "25.11";
 
-    packages = with pkgs; [
-      # GUI Apps
-      firefox
-      chromium
-      discord
-      slack
-      stremio-linux-shell
-      obsidian
-      pear-desktop
-      plexamp
-      libreoffice-fresh
-      obs-studio
-      gpu-screen-recorder
-      mpv
-      vlc
-      pinta
-      qimgv
+    packages =
+      with pkgs;
+      [
+        # GUI Apps
+        firefox
+        chromium
+        discord
+        slack
+        stremio-linux-shell
+        obsidian
+        pear-desktop
+        plexamp
+        libreoffice-fresh
+        obs-studio
+        gpu-screen-recorder
+        mpv
+        vlc
+        pinta
+        qimgv
 
-      # Wayland & Theming
-      niri
-      xwayland-satellite
-      swaybg
-      cliphist
-      kdePackages.qt6ct
-      kdePackages.qtmultimedia
-      kdePackages.breeze
-      kdePackages.breeze-icons
-      libsForQt5.qt5ct
-      kdePackages.qtstyleplugin-kvantum
-      libsForQt5.qtstyleplugin-kvantum
-      adw-gtk3
-      nwg-look
-      gnome-themes-extra
+        # Wayland & Theming
+        niri
+        xwayland-satellite
+        swaybg
+        cliphist
+        kdePackages.qt6ct
+        kdePackages.qtmultimedia
+        kdePackages.breeze
+        kdePackages.breeze-icons
+        kdePackages.ksshaskpass
+        libsForQt5.qt5ct
+        adw-gtk3
+        matugen
+        nwg-look
+        gnome-themes-extra
 
-      # Development
-      godot_4
-      kicad
-      distrobox
-      wineWow64Packages.stable
-      winetricks
-      rustup
-      zig
-      gcc
-      gnumake
-      git
-      gh
-      lazygit
-      nodejs
-      python3
-      gemini-cli
-      zed-editor
-      vscode
+        # Development
+        godot_4
+        kicad
+        distrobox
+        wineWow64Packages.stable
+        winetricks
+        rustup
+        nil
+        nixd
+        zig
+        gcc
+        gnumake
+        git
+        gh
+        lazygit
+        nodejs
+        python3
+        gemini-cli
+        zed-editor
+        vscode
 
-      # Terminal Utils
-      kitty
-      alacritty
-      ghostty
-      btop
-      htop
-      fastfetch
-      ripgrep
-      fd
-      fzf
-      eza
-      zoxide
-      tree
-      jq
-      yq
-      chezmoi
-      age
-      sops
-      cava
-      trash-cli
-      fuzzel
-      waybar
-      dunst
-      libnotify
-      swww
-      grim
-      slurp
-      wl-clipboard
-      playerctl
-      brightnessctl
-      wireplumber
-      yt-dlp
-      psmisc
-    ] ++ (if hostName == "hadro" then [ ] else with pkgs; [ steam lutris ]);
+        # Terminal Utils
+        kitty
+        alacritty
+        ghostty
+        btop
+        htop
+        fastfetch
+        ripgrep
+        fd
+        fzf
+        eza
+        zoxide
+        tree
+        jq
+        yq
+        chezmoi
+        age
+        sops
+        unrar
+        kbd
+        cava
+        trash-cli
+        fuzzel
+        waybar
+        dunst
+        libnotify
+        swww
+        grim
+        slurp
+        wl-clipboard
+        playerctl
+        brightnessctl
+        wireplumber
+        yt-dlp
+        psmisc
+      ]
+      ++ (
+        if hostName == "hadro" then
+          [ ]
+        else
+          with pkgs;
+          [
+            steam
+            lutris
+            gamescope
+            pince
+          ]
+      );
 
     sessionVariables = {
-      QT_QPA_PLATFORMTHEME = lib.mkForce "qt6ct";
-      QT_QPA_PLATFORMTHEME_QT6 = lib.mkForce "qt6ct";
       QT_QPA_PLATFORM = "wayland;xcb";
       XDG_CURRENT_DESKTOP = "niri";
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
@@ -139,23 +161,16 @@
       };
       Install.WantedBy = [ "default.target" ];
     };
+    dms = {
+      environment = {
+        QT_QPA_PLATFORMTHEME = "qt6ct";
+        QT_QPA_PLATFORMTHEME_QT6 = "qt6ct";
+        XDG_MENU_PREFIX = "plasma-";
+      };
+    };
     kdeconnect.Install.WantedBy = lib.mkForce [ "default.target" ];
     kdeconnect-indicator.Install.WantedBy = lib.mkForce [ "default.target" ];
   };
 
   systemd.user.startServices = "sd-switch";
-
-  gtk = {
-    enable = true;
-    theme = {
-      name = "adw-gtk3";
-      package = pkgs.adw-gtk3;
-    };
-  };
-
-  xdg.configFile = {
-    "gtk-4.0/gtk.css".force = true;
-    "gtk-4.0/settings.ini".force = true;
-    "gtk-3.0/settings.ini".force = true;
-  };
 }

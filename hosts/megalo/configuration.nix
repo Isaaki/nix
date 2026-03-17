@@ -1,4 +1,11 @@
-{ config, pkgs, lib, username, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  username,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -21,12 +28,22 @@
     xserver.enable = true;
     xserver.videoDrivers = [ "nvidia" ];
     desktopManager.plasma6.enable = true;
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
+    displayManager = {
+      defaultSession = "niri";
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+      };
+      autoLogin = {
+        enable = true;
+        user = username;
+      };
     };
     udev.extraRules = ''
-      ACTION=="add", SUBSYSTEM=="module", KERNEL=="maccel", RUN+="/bin/sh -c 'chgrp -R maccel /sys/module/maccel/parameters/ && chmod -R g+w /sys/module/maccel/parameters/'"
+      ACTION=="add", SUBSYSTEM=="module", KERNEL=="maccel", RUN+="${pkgs.bash}/bin/sh -c 'chgrp -R maccel /sys/module/maccel/parameters/ && chmod -R g+w /sys/module/maccel/parameters/'"
+
+      # PINCE udev rule
+      SUBSYSTEM=="input", KERNEL=="event*", GROUP="input", MODE="0660"
     '';
   };
 
@@ -59,13 +76,19 @@
       XDG_SESSION_TYPE = "wayland";
       GDK_BACKEND = "wayland";
       MOZ_ENABLE_WAYLAND = "1";
-      XDG_MENU_PREFIX = "plasma-";
     };
 
-    etc."xdg/menus/applications.menu".source = "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";
+    etc."xdg/menus/applications.menu".source =
+      "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";
 
     systemPackages = with pkgs; [
-      git vim curl wget pciutils usbutils wirelesstools
+      git
+      vim
+      curl
+      wget
+      pciutils
+      usbutils
+      wirelesstools
       kdePackages.discover
       kdePackages.kcalc
       kdePackages.kcharselect
@@ -87,7 +110,11 @@
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    config.niri.default = lib.mkForce [ "kde" "gnome" "gtk" ];
+    config.niri.default = lib.mkForce [
+      "kde"
+      "gnome"
+      "gtk"
+    ];
   };
 
   systemd.user.services.dms.serviceConfig.Environment = [ "QT_QPA_PLATFORMTHEME=qt6ct" ];
@@ -95,10 +122,18 @@
   users = {
     users.${username} = {
       isNormalUser = true;
-      extraGroups = [ "networkmanager" "wheel" "video" "audio" "maccel" ];
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+        "video"
+        "audio"
+        "tty"
+        "input"
+        "maccel"
+      ];
       shell = pkgs.fish;
     };
-    groups.maccel = {};
+    groups.maccel = { };
   };
 
   hardware = {
@@ -114,6 +149,9 @@
     };
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   system.stateVersion = "25.11";
 }
