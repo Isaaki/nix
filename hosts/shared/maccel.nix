@@ -22,5 +22,12 @@
   hardware.maccel = {
     enable = true;
     enableCli = true;
+    parameters = {
+      mode = "linear";
+      sensMultiplier = 1.0;
+      acceleration = 0.1;
+      offset = 35.0;
+      outputCap = 1.3;
+    };
   };
 }
