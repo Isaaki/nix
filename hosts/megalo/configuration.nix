@@ -11,6 +11,7 @@
   imports = [
     ./hardware-configuration.nix
     ../shared/maccel.nix
+    ../shared/gnome-keyring.nix
   ];
 
   boot.loader = {
@@ -108,11 +109,14 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    config.niri.default = lib.mkForce [
-      "gnome"
-      "gtk"
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-gnome
     ];
+    config.niri = {
+      default = lib.mkForce [ "gnome" "gtk" ];
+      "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+    };
   };
 
   systemd.user.services = {

@@ -145,12 +145,36 @@
     };
   };
 
+  systemd.user.targets = {
+    niri-session = {
+      Unit = {
+        Description = "niri compositor session";
+        Documentation = [ "man:systemd.special(7)" ];
+        BindsTo = [ "graphical-session.target" ];
+        Wants = [ "graphical-session-pre.target" ];
+        After = [ "graphical-session-pre.target" ];
+      };
+    };
+  };
+
   systemd.user.services = {
+    gnome-keyring = {
+      Unit = {
+        Description = "Gnome Keyring Daemon";
+        PartOf = [ "niri-session.target" ];
+        After = [ "niri-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.gnome-keyring}/bin/gnome-keyring-daemon --start --foreground --components=secrets";
+        Restart = "on-failure";
+      };
+      Install.WantedBy = [ "niri-session.target" ];
+    };
     polkit-gnome-authentication-agent-1 = {
       Unit = {
         Description = "polkit-gnome-authentication-agent-1";
-        Wants = [ "graphical-session.target" ];
-        After = [ "graphical-session.target" ];
+        Wants = [ "niri-session.target" ];
+        After = [ "niri-session.target" ];
       };
       Service = {
         Type = "simple";
@@ -159,10 +183,10 @@
         RestartSec = 1;
         TimeoutStopSec = 10;
       };
-      Install.WantedBy = [ "default.target" ];
+      Install.WantedBy = [ "niri-session.target" ];
     };
-    kdeconnect.Install.WantedBy = lib.mkForce [ "default.target" ];
-    kdeconnect-indicator.Install.WantedBy = lib.mkForce [ "default.target" ];
+    kdeconnect.Install.WantedBy = lib.mkForce [ "niri-session.target" ];
+    kdeconnect-indicator.Install.WantedBy = lib.mkForce [ "niri-session.target" ];
   };
 
   systemd.user.startServices = "sd-switch";
