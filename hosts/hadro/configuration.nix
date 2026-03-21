@@ -100,13 +100,10 @@
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     config.niri.default = lib.mkForce [
-      "kde"
       "gnome"
       "gtk"
     ];
   };
-
-  systemd.user.services.dms.serviceConfig.Environment = [ "QT_QPA_PLATFORMTHEME=qt6ct" ];
 
   users.users.${username} = {
     isNormalUser = true;

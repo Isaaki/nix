@@ -10,6 +10,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ../shared/maccel.nix
   ];
 
   boot.loader = {
@@ -40,8 +41,6 @@
       };
     };
     udev.extraRules = ''
-      ACTION=="add", SUBSYSTEM=="module", KERNEL=="maccel", RUN+="${pkgs.bash}/bin/sh -c 'chgrp -R maccel /sys/module/maccel/parameters/ && chmod -R g+w /sys/module/maccel/parameters/'"
-
       # PINCE udev rule
       SUBSYSTEM=="input", KERNEL=="event*", GROUP="input", MODE="0660"
     '';
@@ -111,13 +110,20 @@
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     config.niri.default = lib.mkForce [
-      "kde"
       "gnome"
       "gtk"
     ];
   };
 
-  systemd.user.services.dms.serviceConfig.Environment = [ "QT_QPA_PLATFORMTHEME=qt6ct" ];
+  systemd.user.services = {
+    dms = {
+      serviceConfig.Environment = [
+        "QT_QPA_PLATFORMTHEME=qt6ct"
+        "QT_QPA_PLATFORMTHEME_QT6=qt6ct"
+        "XDG_MENU_PREFIX=plasma-"
+      ];
+    };
+  };
 
   users = {
     users.${username} = {
@@ -129,11 +135,9 @@
         "audio"
         "tty"
         "input"
-        "maccel"
       ];
       shell = pkgs.fish;
     };
-    groups.maccel = { };
   };
 
   hardware = {
@@ -142,10 +146,6 @@
       open = true;
       nvidiaSettings = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
-    };
-    maccel = {
-      enable = true;
-      enableCli = true;
     };
   };
 

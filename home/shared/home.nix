@@ -161,13 +161,6 @@
       };
       Install.WantedBy = [ "default.target" ];
     };
-    dms = {
-      environment = {
-        QT_QPA_PLATFORMTHEME = "qt6ct";
-        QT_QPA_PLATFORMTHEME_QT6 = "qt6ct";
-        XDG_MENU_PREFIX = "plasma-";
-      };
-    };
     kdeconnect.Install.WantedBy = lib.mkForce [ "default.target" ];
     kdeconnect-indicator.Install.WantedBy = lib.mkForce [ "default.target" ];
   };

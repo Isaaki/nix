@@ -14,27 +14,34 @@
     maccel.url = "github:Gnarus-G/maccel";
   };
 
-  outputs = { self, nixpkgs, home-manager, maccel, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }@inputs:
     let
-      mkHost = hostName: username: nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs hostName username; };
-        modules = [
-          { nixpkgs.config.allowUnfree = true; }
-          ./hosts/${hostName}/configuration.nix
-          home-manager.nixosModules.home-manager
-          maccel.nixosModules.default
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              backupFileExtension = "hm-backup";
-              extraSpecialArgs = { inherit username hostName; };
-              users.${username} = import ./home/shared/home.nix;
-            };
-          }
-        ];
-      };
+      mkHost =
+        hostName: username:
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs hostName username; };
+          modules = [
+            { nixpkgs.config.allowUnfree = true; }
+            ./hosts/${hostName}/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                backupFileExtension = "hm-backup";
+                extraSpecialArgs = { inherit username hostName; };
+                users.${username} = import ./home/shared/home.nix;
+              };
+            }
+          ];
+        };
     in
     {
       nixosConfigurations = {
