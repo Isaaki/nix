@@ -26,6 +26,8 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   services = {
+    gvfs.enable = true;
+    tumbler.enable = true;
     xserver.enable = true;
     xserver.videoDrivers = [ "nvidia" ];
     desktopManager.plasma6.enable = true;
@@ -46,6 +48,14 @@
     fish.enable = true;
     niri.enable = true;
     kdeconnect.enable = true;
+    thunar = {
+      enable = true;
+      plugins = with pkgs; [
+        thunar-archive-plugin
+        thunar-volman
+        thunar-media-tags-plugin
+      ];
+    };
     dms-shell = {
       enable = true;
       quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;

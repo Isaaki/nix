@@ -32,6 +32,20 @@
         pinta
         qimgv
 
+        # File Management Tools
+        thunar-archive-plugin # Archive support
+        thunar-media-tags-plugin # Media tags support
+        file-roller # Engine for archive plugins
+
+        # Thumbnailers
+        tumbler # Core thumbnail daemon
+        ffmpegthumbnailer # Video
+        gdk-pixbuf # Images
+        poppler # PDFs
+        libgsf # Office Docs
+        gnome-epub-thumbnailer # eBooks
+        fontforge # Font previews
+
         # Wayland & Theming
         niri
         xwayland-satellite
@@ -122,6 +136,7 @@
       QT_QPA_PLATFORM = "wayland;xcb";
       XDG_CURRENT_DESKTOP = "niri";
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
+      GTK_USE_PORTAL = "1";
     };
   };
 
@@ -131,6 +146,13 @@
       enable = true;
       indicator = true;
       package = pkgs.kdePackages.kdeconnect-kde;
+    };
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "inode/directory" = [ "thunar.desktop" ];
     };
   };
 

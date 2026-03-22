@@ -27,6 +27,8 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   services = {
+    gvfs.enable = true;
+    tumbler.enable = true;
     xserver.enable = true;
     xserver.videoDrivers = [ "nvidia" ];
     desktopManager.plasma6.enable = true;
@@ -51,6 +53,14 @@
     fish.enable = true;
     niri.enable = true;
     kdeconnect.enable = true;
+    thunar = {
+      enable = true;
+      plugins = with pkgs; [
+        thunar-archive-plugin
+        thunar-volman
+        thunar-media-tags-plugin
+      ];
+    };
     steam = {
       enable = true;
       remotePlay.openFirewall = true;
@@ -109,12 +119,15 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = [ 
+    extraPortals = [
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-gnome
     ];
     config.niri = {
-      default = lib.mkForce [ "gnome" "gtk" ];
+      default = lib.mkForce [
+        "gnome"
+        "gtk"
+      ];
       "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
     };
   };
