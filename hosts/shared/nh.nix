@@ -1,6 +1,8 @@
-{ username, ... }:
+{ pkgs, username, ... }:
 
 {
+  environment.systemPackages = [ pkgs.nvd ];
+
   programs.nh = {
     enable = true;
     clean = {

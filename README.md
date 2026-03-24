@@ -5,7 +5,6 @@
 ```text
 .
 ├── flake.nix               # Main entry point (Pins nixpkgs and home-manager)
-├── Makefile                # Shortcuts for system management
 ├── setup.sh                # Initial setup script for user identity
 │
 ├── hosts/                  # System-level configuration (Root/Sudo)
@@ -58,6 +57,6 @@
 
 Run these from the project root after the initial install:
 
-- `make apply`: Rebuild and switch to the configuration (auto-detects hostname).
-- `make update`: Update the flake lockfile and apply system-wide updates.
-- `make clean`: Collect garbage and remove old generations.
+- `nh os switch`: Rebuild and apply the system configuration.
+- `nh os switch -u`: Update flake lockfile and apply system updates.
+- `nh clean all`: Smarter garbage collection (keeps recent backups).
