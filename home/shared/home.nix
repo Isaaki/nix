@@ -20,7 +20,6 @@
         chromium
         discord
         slack
-        stremio-linux-shell
         obsidian
         pear-desktop
         plexamp
@@ -31,6 +30,7 @@
         vlc
         pinta
         qimgv
+        pavucontrol
 
         # File Management Tools
         thunar-archive-plugin # Archive support
@@ -158,6 +158,7 @@
 
   programs = {
     home-manager.enable = true;
+    nh.enable = true;
     git.enable = true;
     neovim = {
       enable = true;

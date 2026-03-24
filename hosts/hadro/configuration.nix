@@ -10,6 +10,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ../shared/nh.nix
     ../shared/gnome-keyring.nix
   ];
 
