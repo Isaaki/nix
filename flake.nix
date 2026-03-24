@@ -45,8 +45,8 @@
     in
     {
       nixosConfigurations = {
-        megalo = mkHost "megalo" "isaaki";
-        hadro = mkHost "hadro" "isak";
+        nixos-megalo = mkHost "megalo" "isaaki";
+        nixos-hadro = mkHost "hadro" "isak";
       };
     };
 }
