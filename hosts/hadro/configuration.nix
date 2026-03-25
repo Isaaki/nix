@@ -31,13 +31,21 @@
     tumbler.enable = true;
     xserver.enable = true;
     xserver.videoDrivers = [ "nvidia" ];
-    desktopManager.plasma6.enable = true;
-    displayManager = {
-      defaultSession = "niri";
-      sddm = {
-        enable = true;
-        wayland.enable = true;
+    desktopManager.plasma6.enable = false;
+    greetd = {
+      enable = true;
+      settings = {
+        initial_session = {
+          command = "${pkgs.niri}/bin/niri-session";
+          user = "${username}";
+        };
+        default_session = {
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
+          user = "greeter";
+        };
       };
+    };
+    displayManager = {
       autoLogin = {
         enable = true;
         user = username;
@@ -79,9 +87,6 @@
       MOZ_ENABLE_WAYLAND = "1";
     };
 
-    etc."xdg/menus/applications.menu".source =
-      "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";
-
     systemPackages = with pkgs; [
       git
       vim
@@ -90,19 +95,11 @@
       pciutils
       usbutils
       wirelesstools
-      kdePackages.discover
-      kdePackages.kcalc
-      kdePackages.kcharselect
-      kdePackages.kclock
-      kdePackages.kcolorchooser
-      kdePackages.kolourpaint
-      kdePackages.ksystemlog
-      kdePackages.sddm-kcm
+      qalculate-gtk
       kdiff3
       polkit_gnome
-      kdePackages.isoimagewriter
-      kdePackages.partitionmanager
       hardinfo2
+      gnome-disk-utility
       wayland-utils
       wl-clipboard
     ];
@@ -110,12 +107,15 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = [ 
+    extraPortals = [
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-gnome
     ];
     config.niri = {
-      default = lib.mkForce [ "gnome" "gtk" ];
+      default = lib.mkForce [
+        "gnome"
+        "gtk"
+      ];
       "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
     };
   };

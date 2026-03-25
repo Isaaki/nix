@@ -52,10 +52,6 @@
         swaybg
         cliphist
         kdePackages.qt6ct
-        kdePackages.qtmultimedia
-        kdePackages.breeze
-        kdePackages.breeze-icons
-        kdePackages.ksshaskpass
         libsForQt5.qt5ct
         adw-gtk3
         matugen
