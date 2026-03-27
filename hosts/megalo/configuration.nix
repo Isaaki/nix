@@ -27,6 +27,14 @@
   services.automatic-timezoned.enable = true;
   i18n.defaultLocale = "en_US.UTF-8";
 
+  fonts = {
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      noto-fonts
+      fira-code
+    ];
+  };
+
   services = {
     gvfs.enable = true;
     tumbler.enable = true;
@@ -129,13 +137,10 @@
     };
   };
 
-  systemd.user.services = {
-    dms = {
-      serviceConfig.Environment = [
-        "QT_QPA_PLATFORMTHEME=qt6ct"
-        "QT_QPA_PLATFORMTHEME_QT6=qt6ct"
-      ];
-    };
+  qt = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
   };
 
   users = {

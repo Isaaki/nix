@@ -51,9 +51,11 @@
         xwayland-satellite
         swaybg
         cliphist
-        kdePackages.qt6ct
-        libsForQt5.qt5ct
+        gnome-themes-extra
         adw-gtk3
+        adwaita-qt
+        adwaita-qt6
+        gsettings-desktop-schemas
         matugen
         nwg-look
         gnome-themes-extra
@@ -83,14 +85,13 @@
         kitty
         alacritty
         ghostty
-        btop
-        htop
         fastfetch
         ripgrep
         fd
         fzf
         eza
         zoxide
+        tealdeer
         tree
         jq
         yq
@@ -145,10 +146,24 @@
     };
   };
 
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      "inode/directory" = [ "thunar.desktop" ];
+  xdg = {
+    userDirs = {
+      enable = true;
+      setSessionVariables = true;
+      download = "$HOME/downloads";
+      documents = "$HOME/documents";
+      videos = "$HOME/videos";
+      pictures = "$HOME/pictures";
+      music = "$HOME/music";
+      extraConfig = {
+        XDG_PROJECTS_DIR = "$HOME/projects";
+      };
+    };
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "inode/directory" = [ "thunar.desktop" ];
+      };
     };
   };
 
@@ -161,6 +176,43 @@
       defaultEditor = true;
       viAlias = true;
       vimAlias = true;
+    };
+    btop = {
+      enable = true;
+      settings = {
+        color_theme = "ayu";
+        vim_keys = true;
+        update_ms = 200;
+      };
+    };
+    ghostty = {
+      enable = true;
+      settings = {
+        font-family = "ComicCode Nerd Font";
+
+        window-theme = "ghostty";
+        gtk-tabs-location = "bottom";
+
+        gtk-custom-css = "${./ghostty-gtk-style.css}";
+
+        keybind = [
+          "ctrl+shift+t=new_tab"
+          "ctrl+shift+q=close_tab"
+          "ctrl+shift+1=goto_tab:1"
+          "ctrl+shift+2=goto_tab:2"
+          "ctrl+shift+3=goto_tab:3"
+          "ctrl+shift+4=goto_tab:4"
+          "ctrl+shift+5=goto_tab:5"
+          "ctrl+shift+6=goto_tab:6"
+          "ctrl+shift+7=goto_tab:7"
+          "ctrl+shift+8=goto_tab:8"
+          "ctrl+shift+9=goto_tab:9"
+        ];
+
+        cursor-style = "block";
+        cursor-style-blink = true;
+        shell-integration-features = "no-cursor";
+      };
     };
   };
 

@@ -23,15 +23,22 @@
   networking.hostName = "nixos-hadro";
   networking.networkmanager.enable = true;
 
-  time.timeZone = "UTC";
+  services.automatic-timezoned.enable = true;
   i18n.defaultLocale = "en_US.UTF-8";
+
+  fonts = {
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      noto-fonts
+      fira-code
+    ];
+  };
 
   services = {
     gvfs.enable = true;
     tumbler.enable = true;
     xserver.enable = true;
     xserver.videoDrivers = [ "nvidia" ];
-    desktopManager.plasma6.enable = false;
     greetd = {
       enable = true;
       settings = {
@@ -120,24 +127,34 @@
     };
   };
 
-  users.users.${username} = {
-    isNormalUser = true;
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "video"
-      "audio"
-      "tty"
-      "input"
-    ];
-    shell = pkgs.fish;
+  qt = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
   };
 
-  hardware.nvidia = {
-    modesetting.enable = true;
-    open = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  users = {
+    users.${username} = {
+      isNormalUser = true;
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+        "video"
+        "audio"
+        "tty"
+        "input"
+      ];
+      shell = pkgs.fish;
+    };
+  };
+
+  hardware = {
+    nvidia = {
+      modesetting.enable = true;
+      open = true;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
   };
 
   nix.settings.experimental-features = [
