@@ -137,6 +137,7 @@
       XDG_CURRENT_DESKTOP = "niri";
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
       GTK_USE_PORTAL = "1";
+      BROWSER = "firefox";
 
       LIBVA_DRIVER_NAME = "radeonsi"; # For Intel("iHD"), AMD("radeonsi")
       MOZ_USE_XINPUT2 = "1";
@@ -153,6 +154,7 @@
   };
 
   xdg = {
+    configFile."mimeapps.list".force = true;
     userDirs = {
       enable = true;
       setSessionVariables = true;
@@ -165,7 +167,16 @@
     mimeApps = {
       enable = true;
       defaultApplications = {
+        "text/html" = [ "firefox.desktop" ];
+        "text/xml" = [ "firefox.desktop" ];
+        "application/xhtml+xml" = [ "firefox.desktop" ];
+        "application/xml" = [ "firefox.desktop" ];
+        "x-scheme-handler/http" = [ "firefox.desktop" ];
+        "x-scheme-handler/https" = [ "firefox.desktop" ];
+        "x-scheme-handler/about" = [ "firefox.desktop" ];
+        "x-scheme-handler/unknown" = [ "firefox.desktop" ];
         "inode/directory" = [ "thunar.desktop" ];
+        "application/x-directory" = [ "thunar.desktop" ];
       };
     };
   };

@@ -14,6 +14,7 @@
     ../shared/maccel.nix
     ../shared/gnome-keyring.nix
     ../shared/firefox.nix
+    ../shared/nix-ld.nix
   ];
 
   boot.loader = {
@@ -40,7 +41,10 @@
     gvfs.enable = true;
     tumbler.enable = true;
     xserver.enable = true;
-    xserver.videoDrivers = [ "nvidia" "amdgpu" ];
+    xserver.videoDrivers = [
+      "nvidia"
+      "amdgpu"
+    ];
     greetd = {
       enable = true;
       settings = {
@@ -132,10 +136,12 @@
       pkgs.xdg-desktop-portal-gnome
     ];
     config.niri = {
-      default = lib.mkForce [
-        "gnome"
-        "gtk"
-      ];
+      default = lib.mkForce [ "gtk" ];
+      # Use GNOME specifically for the things Niri recommends it for
+      "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
+      "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
+
+      # Explicitly force GTK for the file picker
       "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
     };
   };
