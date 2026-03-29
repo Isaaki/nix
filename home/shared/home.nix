@@ -16,7 +16,6 @@
       with pkgs;
       [
         # GUI Apps
-        firefox
         chromium
         discord
         slack
@@ -31,6 +30,7 @@
         pinta
         qimgv
         pavucontrol
+        lmstudio
 
         # File Management Tools
         thunar-archive-plugin # Archive support
@@ -90,6 +90,9 @@
         fd
         fzf
         eza
+        radeontop # Use this to see AMD iGPU usage
+        libva-utils # Provides 'vainfo' to check drivers
+        nvtopPackages.full # Best tool to see both GPUs at once
         zoxide
         tealdeer
         tree
@@ -134,6 +137,9 @@
       XDG_CURRENT_DESKTOP = "niri";
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
       GTK_USE_PORTAL = "1";
+
+      LIBVA_DRIVER_NAME = "radeonsi"; # For Intel("iHD"), AMD("radeonsi")
+      MOZ_USE_XINPUT2 = "1";
     };
   };
 
@@ -155,9 +161,6 @@
       videos = "$HOME/videos";
       pictures = "$HOME/pictures";
       music = "$HOME/music";
-      extraConfig = {
-        XDG_PROJECTS_DIR = "$HOME/projects";
-      };
     };
     mimeApps = {
       enable = true;
@@ -190,7 +193,7 @@
       settings = {
         font-family = "ComicCode Nerd Font";
 
-        window-theme = "ghostty";
+        # window-theme = "system";
         gtk-tabs-location = "bottom";
 
         gtk-custom-css = "${./ghostty-gtk-style.css}";

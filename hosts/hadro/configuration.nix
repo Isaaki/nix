@@ -12,6 +12,7 @@
     ./hardware-configuration.nix
     ../shared/nh.nix
     ../shared/gnome-keyring.nix
+    ../shared/firefox.nix
   ];
 
   boot.loader = {
@@ -154,6 +155,9 @@
       open = true;
       nvidiaSettings = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
+    graphics = {
+      enable = true;
     };
   };
 

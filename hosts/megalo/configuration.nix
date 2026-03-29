@@ -13,6 +13,7 @@
     ../shared/nh.nix
     ../shared/maccel.nix
     ../shared/gnome-keyring.nix
+    ../shared/firefox.nix
   ];
 
   boot.loader = {
@@ -39,7 +40,7 @@
     gvfs.enable = true;
     tumbler.enable = true;
     xserver.enable = true;
-    xserver.videoDrivers = [ "nvidia" ];
+    xserver.videoDrivers = [ "nvidia" "amdgpu" ];
     greetd = {
       enable = true;
       settings = {
@@ -102,6 +103,8 @@
       XDG_SESSION_TYPE = "wayland";
       GDK_BACKEND = "wayland";
       MOZ_ENABLE_WAYLAND = "1";
+
+      DRI_PRIME = "1";
     };
 
     systemPackages = with pkgs; [
@@ -163,9 +166,27 @@
       modesetting.enable = true;
       open = true;
       nvidiaSettings = true;
+      prime = {
+        nvidiaBusId = "PCI:1:0:0";
+        amdgpuBusId = "PCI:15:0:0";
+      };
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+      extraPackages = with pkgs; [
+        libva-vdpau-driver
+        libvdpau-va-gl
+        # AMD specific drivers for hardware accel
+        libva
+        mesa
+      ];
+    };
   };
+
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  # This ensures the AMD driver is loaded early so Firefox can see it
 
   nix.settings.experimental-features = [
     "nix-command"

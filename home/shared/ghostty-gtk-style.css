@@ -4,9 +4,13 @@ https://docs.gtk.org/gtk4/css-overview.html
 https://docs.gtk.org/gtk4/css-properties.html
 */
 
+* {
+  background-color: red !important;
+  color: blue !important;
+}
 
 headerbar {
-  min-height: 24px;
+  min-height: 12px;
   padding: 0;
   margin: 0;
 }
@@ -24,26 +28,5 @@ tabbar tabbox tab {
 }
 
 tabbar tabbox tab label {
-  font-size: 13px;
-}
-
-/* Initialize the counter on the container holding the tabs */
-tabbar tabbox {
-  counter-reset: ghostty-tab-counter;
-}
-
-/* Increment the counter for every tab */
-tabbar tabbox tab {
-  counter-increment: ghostty-tab-counter;
-}
-
-/* Inject the number before the tab label */
-tabbar tabbox tab label::before {
-  /* This displays the number followed by a dot or space */
-  content: counter(ghostty-tab-counter) " ";
-
-  /* Optional: Make the number look slightly different (dimmed or bold) */
-  opacity: 0.6;
-  font-weight: bold;
-  margin-right: 4px;
+  font-size: 10px;
 }
