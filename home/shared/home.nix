@@ -80,6 +80,7 @@
         gemini-cli
         zed-editor
         vscode
+        uv
 
         # Terminal Utils
         kitty
@@ -175,8 +176,19 @@
         "x-scheme-handler/https" = [ "firefox.desktop" ];
         "x-scheme-handler/about" = [ "firefox.desktop" ];
         "x-scheme-handler/unknown" = [ "firefox.desktop" ];
+
         "inode/directory" = [ "thunar.desktop" ];
         "application/x-directory" = [ "thunar.desktop" ];
+
+        "image/jpeg" = [ "qimgv.desktop" ];
+        "image/png" = [ "qimgv.desktop" ];
+        "image/gif" = [ "qimgv.desktop" ];
+        "image/webp" = [ "qimgv.desktop" ];
+        "image/bmp" = [ "qimgv.desktop" ];
+        "image/tiff" = [ "qimgv.desktop" ];
+        "image/x-tga" = [ "qimgv.desktop" ];
+        "image/vnd.microsoft.icon" = [ "qimgv.desktop" ];
+        "image/svg+xml" = [ "qimgv.desktop" ];
       };
     };
   };
