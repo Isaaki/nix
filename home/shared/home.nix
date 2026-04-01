@@ -113,6 +113,7 @@
         swww
         grim
         slurp
+        satty
         wl-clipboard
         playerctl
         brightnessctl
