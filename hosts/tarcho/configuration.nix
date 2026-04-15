@@ -16,7 +16,9 @@
     ../shared/nix-ld.nix
     ../shared/cachix.nix
     ../shared/docker.nix
+    ../shared/xkb.nix
     "${inputs.nixos-hardware}/microsoft/surface/common"
+    inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
   # Surface-specific optimizations
@@ -25,9 +27,14 @@
   };
 
   boot.loader = {
-    systemd-boot.enable = false;
-    limine.enable = true;
+    systemd-boot.enable = lib.mkForce false; # Required by lanzaboote
+    limine.enable = false;
     efi.canTouchEfiVariables = true;
+  };
+
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/etc/secureboot";
   };
 
   # Fix built-in keyboard for LUKS decryption
@@ -46,7 +53,27 @@
   networking.networkmanager.enable = true;
 
   services.automatic-timezoned.enable = true;
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "nb_NO.UTF-8";
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "nb_NO.UTF-8";
+    LC_IDENTIFICATION = "nb_NO.UTF-8";
+    LC_MEASUREMENT = "nb_NO.UTF-8";
+    LC_MONETARY = "nb_NO.UTF-8";
+    LC_NAME = "nb_NO.UTF-8";
+    LC_NUMERIC = "nb_NO.UTF-8";
+    LC_PAPER = "nb_NO.UTF-8";
+    LC_TELEPHONE = "nb_NO.UTF-8";
+    LC_TIME = "nb_NO.UTF-8";
+  };
+
+  # Configure console keymap
+  console.keyMap = "no";
+
+  services.xserver.xkb = {
+    layout = "no,alt-nord";
+    variant = ",";
+    options = "grp:alt_shift_toggle";
+  };
 
   fonts = {
     enableDefaultPackages = true;

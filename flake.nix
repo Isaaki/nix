@@ -13,6 +13,10 @@
     };
     maccel.url = "github:Gnarus-G/maccel";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.3";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -21,6 +25,7 @@
       nixpkgs,
       home-manager,
       nixos-hardware,
+      lanzaboote,
       ...
     }@inputs:
     let

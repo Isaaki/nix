@@ -1,0 +1,13 @@
+partial alphanumeric_keys modifier_keys
+xkb_symbols "alt-nord" {
+    name[Group1]= "Alt Nordics (us)";
+
+    include "us(basic)"
+
+    key <AD11>	{[ bracketleft,  braceleft,  aring,      Aring]};
+
+    key <AC10>	{[ semicolon,    colon,      oslash,     Oslash]};
+    key <AC11>	{[ apostrophe,   quotedbl,   ae,         AE]};
+
+    include "level3(ralt_switch)"
+};
