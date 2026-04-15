@@ -68,7 +68,6 @@
     gvfs.enable = true;
     tumbler.enable = true;
     xserver.enable = true;
-    xserver.videoDrivers = [ "nvidia" ];
     greetd = {
       enable = true;
       settings = {
@@ -176,15 +175,7 @@
 
   hardware = {
     bluetooth.enable = true;
-    nvidia = {
-      modesetting.enable = true;
-      open = true;
-      nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-    };
-    graphics = {
-      enable = true;
-    };
+    graphics.enable = true;
   };
 
   nix.settings.experimental-features = [

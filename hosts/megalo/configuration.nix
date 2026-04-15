@@ -17,7 +17,10 @@
     ../shared/nix-ld.nix
     ../shared/cachix.nix
     ../shared/docker.nix
+    ../shared/nvidia.nix
   ];
+
+  services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
 
   boot.loader = {
     systemd-boot.enable = false;
@@ -45,10 +48,6 @@
     gvfs.enable = true;
     tumbler.enable = true;
     xserver.enable = true;
-    xserver.videoDrivers = [
-      "nvidia"
-      "amdgpu"
-    ];
     greetd = {
       enable = true;
       settings = {
@@ -170,23 +169,10 @@
 
   hardware = {
     bluetooth.enable = true;
-    nvidia = {
-      modesetting.enable = true;
-      open = true;
-      nvidiaSettings = true;
-      prime = {
-        nvidiaBusId = "PCI:1:0:0";
-        amdgpuBusId = "PCI:15:0:0";
-      };
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-    };
     xone.enable = true;
     graphics = {
       enable = true;
-      enable32Bit = true;
       extraPackages = with pkgs; [
-        libva-vdpau-driver
-        libvdpau-va-gl
         # AMD specific drivers for hardware accel
         libva
         mesa
