@@ -15,6 +15,7 @@
     ../shared/firefox.nix
     ../shared/nix-ld.nix
     ../shared/cachix.nix
+    ../shared/docker.nix
     inputs.nixos-hardware.nixosModules.microsoft-surface-common
   ];
 

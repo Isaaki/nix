@@ -15,6 +15,7 @@
     ../shared/firefox.nix
     ../shared/nix-ld.nix
     ../shared/cachix.nix
+    ../shared/docker.nix
   ];
 
   boot.loader = {
