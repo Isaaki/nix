@@ -16,14 +16,31 @@
     ../shared/nix-ld.nix
     ../shared/cachix.nix
     ../shared/docker.nix
-    inputs.nixos-hardware.nixosModules.microsoft-surface-common
+    "${inputs.nixos-hardware}/microsoft/surface/common"
   ];
+
+  # Surface-specific optimizations
+  hardware.microsoft-surface = {
+    kernelVersion = "stable"; # Use stable kernel for better hardware support
+  };
 
   boot.loader = {
     systemd-boot.enable = false;
     limine.enable = true;
     efi.canTouchEfiVariables = true;
   };
+
+  # Fix built-in keyboard for LUKS decryption
+  boot.initrd.kernelModules = [
+    "surface_aggregator"
+    "surface_aggregator_registry"
+    "surface_aggregator_hub"
+    "surface_hid_core"
+    "surface_hid"
+    "8250_dw"
+    "intel_lpss"
+    "intel_lpss_pci"
+  ];
 
   networking.hostName = "nixos-tarcho";
   networking.networkmanager.enable = true;
