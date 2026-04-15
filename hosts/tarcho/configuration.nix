@@ -21,6 +21,13 @@
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
+    initrd.kernelModules = [
+      "surface_aggregator"
+      "surface_aggregator_registry"
+      "surface_hid_core"
+      "surface_kbd"
+      "hid_multitouch"
+    ];
     loader = {
       systemd-boot.enable = false;
       limine.enable = true;
@@ -32,7 +39,7 @@
   networking.networkmanager.enable = true;
 
   services.automatic-timezoned.enable = true;
-  i18n.defaultLocale = "nb_NO.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "nb_NO.UTF-8";
     LC_IDENTIFICATION = "nb_NO.UTF-8";
