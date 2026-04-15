@@ -12,7 +12,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     maccel.url = "github:Gnarus-G/maccel";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   outputs =
@@ -20,7 +19,6 @@
       self,
       nixpkgs,
       home-manager,
-      nixos-hardware,
       ...
     }@inputs:
     let
