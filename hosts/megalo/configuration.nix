@@ -15,6 +15,7 @@
     ../shared/gnome-keyring.nix
     ../shared/firefox.nix
     ../shared/nix-ld.nix
+    ../shared/cachix.nix
   ];
 
   boot.loader = {
@@ -38,6 +39,8 @@
   };
 
   services = {
+    blueman.enable = true;
+    flatpak.enable = true;
     gvfs.enable = true;
     tumbler.enable = true;
     xserver.enable = true;
@@ -56,12 +59,6 @@
           command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
           user = "greeter";
         };
-      };
-    };
-    displayManager = {
-      autoLogin = {
-        enable = true;
-        user = username;
       };
     };
     udev.extraRules = ''
@@ -86,6 +83,9 @@
       enable = true;
       remotePlay.openFirewall = true;
       dedicatedServer.openFirewall = true;
+      # extraCompatPackages = with pkgs; [
+      #   inputs.nix-proton-cachyos.packages.${system}.proton-cachyos
+      # ];
     };
     dms-shell = {
       enable = true;
@@ -168,6 +168,7 @@
   };
 
   hardware = {
+    bluetooth.enable = true;
     nvidia = {
       modesetting.enable = true;
       open = true;
@@ -178,6 +179,7 @@
       };
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
+    xone.enable = true;
     graphics = {
       enable = true;
       enable32Bit = true;

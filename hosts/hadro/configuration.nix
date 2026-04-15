@@ -14,6 +14,7 @@
     ../shared/gnome-keyring.nix
     ../shared/firefox.nix
     ../shared/nix-ld.nix
+    ../shared/cachix.nix
   ];
 
   boot.loader = {
@@ -37,6 +38,8 @@
   };
 
   services = {
+    blueman.enable = true;
+    flatpak.enable = true;
     gvfs.enable = true;
     tumbler.enable = true;
     xserver.enable = true;
@@ -52,12 +55,6 @@
           command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
           user = "greeter";
         };
-      };
-    };
-    displayManager = {
-      autoLogin = {
-        enable = true;
-        user = username;
       };
     };
   };
@@ -153,6 +150,7 @@
   };
 
   hardware = {
+    bluetooth.enable = true;
     nvidia = {
       modesetting.enable = true;
       open = true;

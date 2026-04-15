@@ -128,6 +128,7 @@
           with pkgs;
           [
             steam
+            protontricks
             lutris
             gamescope
             pince
@@ -147,6 +148,7 @@
   };
 
   services = {
+    mpris-proxy.enable = true;
     syncthing.enable = true;
     kdeconnect = {
       enable = true;
@@ -263,7 +265,10 @@
         After = [ "niri-session.target" ];
       };
       Service = {
-        ExecStart = "${pkgs.gnome-keyring}/bin/gnome-keyring-daemon --start --foreground --components=secrets";
+        ExecStart = pkgs.writeShellScript "start-gnome-keyring" ''
+          eval $(${pkgs.gnome-keyring}/bin/gnome-keyring-daemon --start --components=secrets,ssh)
+          ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd SSH_AUTH_SOCK GNOME_KEYRING_CONTROL GNOME_KEYRING_SCREEN_READER_SOFTWARE_VERSION
+        '';
         Restart = "on-failure";
       };
       Install.WantedBy = [ "niri-session.target" ];
