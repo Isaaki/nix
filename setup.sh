@@ -24,7 +24,8 @@ fi
 # 2. Extract host definition keys reliably from flake.nix
 echo ""
 echo "Identifying available hosts..."
-HOSTS=$(grep -E '[a-zA-Z0-9_-]+[[:space:]]*=[[:space:]]*mkHost' flake.nix | sed -E 's/^[[:space:]]*([a-zA-Z0-9_-]+).*/\1/')
+# Look for nixosConfigurations = { ... } block
+HOSTS=$(grep -E 'nixos-[a-zA-Z0-9_-]+[[:space:]]*=' flake.nix | sed -E 's/^[[:space:]]*(nixos-[a-zA-Z0-9_-]+).*/\1/')
 
 if [ -z "$HOSTS" ]; then
     echo "ERROR: No hosts found in flake.nix!"
@@ -47,7 +48,11 @@ echo "=== Setup Complete ==="
 echo "Selected Host: $SELECTED_HOST"
 echo ""
 echo "NEXT STEPS:"
-echo "To apply this configuration for the first time, run:"
+echo "1. To apply this configuration for the FIRST time, run:"
 echo ""
 echo "  sudo nixos-rebuild switch --flake .#$SELECTED_HOST"
+echo ""
+echo "2. For future updates, use the 'nh' tool:"
+echo ""
+echo "  nh os switch"
 echo ""
