@@ -19,10 +19,13 @@
     ../shared/xkb.nix
   ];
 
-  boot.loader = {
-    systemd-boot.enable = false;
-    limine.enable = true;
-    efi.canTouchEfiVariables = true;
+  boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+    loader = {
+      systemd-boot.enable = false;
+      limine.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
   };
 
   networking.hostName = "nixos-tarcho";
