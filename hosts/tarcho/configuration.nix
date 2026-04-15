@@ -18,7 +18,6 @@
     ../shared/docker.nix
     ../shared/xkb.nix
     "${inputs.nixos-hardware}/microsoft/surface/common"
-    inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
   # Surface-specific optimizations
@@ -27,14 +26,9 @@
   };
 
   boot.loader = {
-    systemd-boot.enable = lib.mkForce false; # Required by lanzaboote
-    limine.enable = false;
+    systemd-boot.enable = false;
+    limine.enable = true;
     efi.canTouchEfiVariables = true;
-  };
-
-  boot.lanzaboote = {
-    enable = true;
-    pkiBundle = "/etc/secureboot";
   };
 
   # Fix built-in keyboard for LUKS decryption
