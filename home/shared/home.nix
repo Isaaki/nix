@@ -74,6 +74,7 @@
         git
         gh
         lazygit
+        lazydocker
         nodejs
         python3
         gemini-cli
@@ -109,7 +110,7 @@
         waybar
         dunst
         libnotify
-        swww
+        awww
         grim
         slurp
         satty
@@ -204,6 +205,8 @@
       defaultEditor = true;
       viAlias = true;
       vimAlias = true;
+      withPython3 = true;
+      withRuby = true;
     };
     btop = {
       enable = true;
