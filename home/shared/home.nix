@@ -62,7 +62,6 @@
 
         # Development
         godot_4
-        kicad
         distrobox
         wineWow64Packages.stable
         winetricks
