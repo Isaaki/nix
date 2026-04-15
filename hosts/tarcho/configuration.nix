@@ -43,8 +43,11 @@
     };
   };
 
-  security.tpm2.enable = true;
-  security.tpm2.pkcs11.enable = true;
+  security = {
+    tpm2.enable = true;
+    tpm2.pkcs11.enable = true;
+    pam.u2f.enable = false;
+  };
 
   networking.hostName = "nixos-tarcho";
   networking.networkmanager.enable = true;
@@ -119,7 +122,7 @@
       systemd.enable = true;
       systemd.restartIfChanged = true;
       enableSystemMonitoring = true;
-      enableVPN = true;
+      enableVPN = false;
       enableDynamicTheming = true;
       enableAudioWavelength = true;
       enableCalendarEvents = true;
