@@ -32,7 +32,7 @@
 2.  **Clone & Prepare**:
 
     ```bash
-    git clone <your-repo-url> ~/nix
+    git clone https://github.com/Isaaki/nix.git ~/nix
     cd ~/nix
     ```
 
