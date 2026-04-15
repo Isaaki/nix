@@ -43,6 +43,9 @@
     };
   };
 
+  security.tpm2.enable = true;
+  security.tpm2.pkcs11.enable = true;
+
   networking.hostName = "nixos-tarcho";
   networking.networkmanager.enable = true;
 
