@@ -21,13 +21,21 @@
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    initrd.kernelModules = [
-      "surface_aggregator"
-      "surface_aggregator_registry"
-      "surface_hid_core"
-      "surface_kbd"
-      "hid_multitouch"
-    ];
+    initrd = {
+      systemd.enable = true;
+      includeDefaultModules = true;
+      compressor = "zstd";
+      kernelModules = [
+        "surface_aggregator"
+        "surface_aggregator_registry"
+        "surface_hid_core"
+        "surface_hid"
+        "surface_kbd"
+        "hid"
+        "hid_generic"
+        "usbhid"
+      ];
+    };
     loader = {
       systemd-boot.enable = false;
       limine.enable = true;
