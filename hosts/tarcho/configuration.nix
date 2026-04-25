@@ -17,10 +17,10 @@
     ../shared/cachix.nix
     ../shared/docker.nix
     ../shared/xkb.nix
+    ../shared/cachyos-kernel.nix
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
     initrd = {
       systemd.enable = true;
       includeDefaultModules = true;
