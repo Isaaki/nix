@@ -31,6 +31,7 @@
         qimgv
         pavucontrol
         lmstudio
+        teams-for-linux
 
         # File Management Tools
         thunar-archive-plugin # Archive support
@@ -57,6 +58,7 @@
         adwaita-qt6
         gsettings-desktop-schemas
         matugen
+        kdePackages.breeze
         nwg-look
         gnome-themes-extra
 
@@ -70,6 +72,7 @@
         nixd
         zig
         gcc
+        pnpm
         gnumake
         git
         gh
@@ -78,6 +81,7 @@
         nodejs
         python3
         gemini-cli
+        claude-code
         zed-editor
         vscode
         uv
