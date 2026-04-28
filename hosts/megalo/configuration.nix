@@ -18,7 +18,6 @@
     ../shared/cachix.nix
     ../shared/docker.nix
     ../shared/nvidia.nix
-    ../shared/cachyos-kernel.nix
   ];
 
   services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];

@@ -12,18 +12,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     maccel.url = "github:Gnarus-G/maccel";
-    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
-  };
-
-  nixConfig = {
-    extra-substituters = [
-      "https://attic.xuyh0120.win/lantian"
-      "https://cache.garnix.io"
-    ];
-    extra-trusted-public-keys = [
-      "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
-      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
-    ];
   };
 
   outputs =
@@ -31,7 +19,6 @@
       self,
       nixpkgs,
       home-manager,
-      nix-cachyos-kernel,
       ...
     }@inputs:
     let
@@ -39,14 +26,7 @@
         hostName: username:
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = {
-            inherit
-              inputs
-              hostName
-              username
-              ;
-            cachyos-kernel-pkgs = nix-cachyos-kernel.legacyPackages.x86_64-linux;
-          };
+          specialArgs = { inherit inputs hostName username; };
           modules = [
             { nixpkgs.config.allowUnfree = true; }
             ./hosts/${hostName}/configuration.nix
