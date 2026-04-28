@@ -161,12 +161,16 @@
     configFile."mimeapps.list".force = true;
     userDirs = {
       enable = true;
+      createDirectories = true;
+
       setSessionVariables = true;
+
       download = "$HOME/downloads";
       documents = "$HOME/documents";
-      videos = "$HOME/videos";
-      pictures = "$HOME/pictures";
       music = "$HOME/music";
+      pictures = "$HOME/pictures";
+      videos = "$HOME/videos";
+      projects = "$HOME/dev";
     };
     mimeApps = {
       enable = true;
