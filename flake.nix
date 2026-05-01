@@ -28,7 +28,18 @@
           system = "x86_64-linux";
           specialArgs = { inherit inputs hostName username; };
           modules = [
-            { nixpkgs.config.allowUnfree = true; }
+            {
+              nixpkgs.config = {
+                allowUnfree = true;
+                packageOverrides = pkgs: {
+
+                  # Fix flaky check when building openldap
+                  openldap = pkgs.openldap.overrideAttrs (old: {
+                    doCheck = false;
+                  });
+                };
+              };
+            }
             ./hosts/${hostName}/configuration.nix
             home-manager.nixosModules.home-manager
             {

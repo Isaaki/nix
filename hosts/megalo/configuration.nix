@@ -18,9 +18,13 @@
     ../shared/cachix.nix
     ../shared/docker.nix
     ../shared/nvidia.nix
+    ../shared/mullvad.nix
   ];
 
-  services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
+  services.xserver.videoDrivers = [
+    "amdgpu"
+    "nvidia"
+  ];
 
   boot.loader = {
     systemd-boot.enable = false;

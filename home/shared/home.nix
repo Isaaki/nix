@@ -174,7 +174,6 @@
       music = "$HOME/music";
       pictures = "$HOME/pictures";
       videos = "$HOME/videos";
-      projects = "$HOME/dev";
     };
     mimeApps = {
       enable = true;
