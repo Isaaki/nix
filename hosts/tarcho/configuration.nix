@@ -17,6 +17,7 @@
     ../shared/cachix.nix
     ../shared/docker.nix
     ../shared/xkb.nix
+    ../shared/pipewire.nix
   ];
 
   boot = {

@@ -19,6 +19,7 @@
     ../shared/docker.nix
     ../shared/nvidia.nix
     ../shared/mullvad.nix
+    ../shared/pipewire.nix
   ];
 
   services.xserver.videoDrivers = [
@@ -182,6 +183,15 @@
         mesa
       ];
     };
+  };
+
+  custom.pipewire-combined = {
+    enable = true;
+    nodes = [
+      "alsa_output.usb-ARTURIA_MiniFuse_2_8840400264010899-00.HiFi__Line1__sink"
+      "bluez_output.98_8E_79_00_6A_9F.1"
+      "bluez_output.40_ED_98_1A_7A_F6.1"
+    ];
   };
 
   boot.initrd.kernelModules = [ "amdgpu" ];

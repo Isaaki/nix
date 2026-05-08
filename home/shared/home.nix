@@ -32,6 +32,7 @@
         pavucontrol
         lmstudio
         teams-for-linux
+        qpwgraph
 
         # File Management Tools
         thunar-archive-plugin # Archive support

@@ -16,6 +16,7 @@
     ../shared/nix-ld.nix
     ../shared/cachix.nix
     ../shared/docker.nix
+    ../shared/pipewire.nix
   ];
 
   boot.loader = {
