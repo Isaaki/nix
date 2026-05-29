@@ -20,6 +20,7 @@
     ../shared/nvidia.nix
     ../shared/mullvad.nix
     ../shared/pipewire.nix
+    ../shared/zmk.nix
   ];
 
   services.xserver.videoDrivers = [
@@ -124,7 +125,6 @@
       pciutils
       usbutils
       wirelesstools
-      qalculate-gtk
       kdiff3
       polkit_gnome
       hardinfo2
@@ -167,6 +167,7 @@
         "audio"
         "tty"
         "input"
+        "dialout"
       ];
       shell = pkgs.fish;
     };

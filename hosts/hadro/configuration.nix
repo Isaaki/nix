@@ -102,7 +102,6 @@
       pciutils
       usbutils
       wirelesstools
-      qalculate-gtk
       kdiff3
       polkit_gnome
       hardinfo2

@@ -22,7 +22,7 @@
         obsidian
         pear-desktop
         plexamp
-        libreoffice-fresh
+        libreoffice
         obs-studio
         gpu-screen-recorder
         mpv
@@ -33,6 +33,8 @@
         lmstudio
         teams-for-linux
         qpwgraph
+        qalculate-gtk
+        imhex
 
         # File Management Tools
         thunar-archive-plugin # Archive support
@@ -86,6 +88,7 @@
         zed-editor
         vscode
         uv
+        jdk
 
         # Terminal Utils
         kitty
@@ -102,6 +105,7 @@
         zoxide
         tealdeer
         tree
+        unzip
         jq
         yq
         chezmoi
@@ -134,6 +138,7 @@
           [
             steam
             protontricks
+            protonplus
             lutris
             gamescope
             pince
