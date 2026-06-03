@@ -17,7 +17,6 @@
       openssl
       curl
       expat
-
       python3
 
       # Graphics & UI

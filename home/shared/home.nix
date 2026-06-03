@@ -84,6 +84,7 @@
         nodejs
         python3
         gemini-cli
+        antigravity
         claude-code
         zed-editor
         vscode
@@ -129,6 +130,7 @@
         wireplumber
         yt-dlp
         psmisc
+        siomon
       ]
       ++ (
         if hostName == "hadro" then

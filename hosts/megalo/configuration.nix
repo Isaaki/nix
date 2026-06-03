@@ -21,6 +21,7 @@
     ../shared/mullvad.nix
     ../shared/pipewire.nix
     ../shared/zmk.nix
+    ../shared/virt-manager.nix
   ];
 
   services.xserver.videoDrivers = [
@@ -168,6 +169,7 @@
         "tty"
         "input"
         "dialout"
+        "libvirtd"
       ];
       shell = pkgs.fish;
     };
