@@ -7,6 +7,8 @@
 }:
 
 {
+  imports = [ ./mime.nix ];
+
   home = {
     username = username;
     homeDirectory = "/home/${username}";
@@ -170,44 +172,17 @@
   };
 
   xdg = {
-    configFile."mimeapps.list".force = true;
     userDirs = {
       enable = true;
       createDirectories = true;
 
       setSessionVariables = true;
 
-      download = "$HOME/downloads";
-      documents = "$HOME/documents";
-      music = "$HOME/music";
-      pictures = "$HOME/pictures";
-      videos = "$HOME/videos";
-    };
-    mimeApps = {
-      enable = true;
-      defaultApplications = {
-        "text/html" = [ "firefox.desktop" ];
-        "text/xml" = [ "firefox.desktop" ];
-        "application/xhtml+xml" = [ "firefox.desktop" ];
-        "application/xml" = [ "firefox.desktop" ];
-        "x-scheme-handler/http" = [ "firefox.desktop" ];
-        "x-scheme-handler/https" = [ "firefox.desktop" ];
-        "x-scheme-handler/about" = [ "firefox.desktop" ];
-        "x-scheme-handler/unknown" = [ "firefox.desktop" ];
-
-        "inode/directory" = [ "thunar.desktop" ];
-        "application/x-directory" = [ "thunar.desktop" ];
-
-        "image/jpeg" = [ "qimgv.desktop" ];
-        "image/png" = [ "qimgv.desktop" ];
-        "image/gif" = [ "qimgv.desktop" ];
-        "image/webp" = [ "qimgv.desktop" ];
-        "image/bmp" = [ "qimgv.desktop" ];
-        "image/tiff" = [ "qimgv.desktop" ];
-        "image/x-tga" = [ "qimgv.desktop" ];
-        "image/vnd.microsoft.icon" = [ "qimgv.desktop" ];
-        "image/svg+xml" = [ "qimgv.desktop" ];
-      };
+      download = "$HOME/Downloads";
+      documents = "$HOME/Documents";
+      music = "$HOME/Music";
+      pictures = "$HOME/Pictures";
+      videos = "$HOME/Videos";
     };
   };
 
