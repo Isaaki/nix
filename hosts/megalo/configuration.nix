@@ -23,6 +23,7 @@
     ../shared/zmk.nix
     ../shared/virt-manager.nix
     ../shared/kde.nix
+    ../shared/music.nix
   ];
 
   services.xserver.videoDrivers = [
