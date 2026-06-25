@@ -24,7 +24,6 @@
         obsidian
         pear-desktop
         plexamp
-        libreoffice
         obs-studio
         gpu-screen-recorder
         mpv
@@ -64,6 +63,8 @@
         gsettings-desktop-schemas
         matugen
         kdePackages.breeze
+        kdePackages.qtwayland
+        qt5.qtwayland
         nwg-look
         gnome-themes-extra
 
@@ -76,6 +77,7 @@
         nil
         nixd
         zig
+        mise
         gcc
         pnpm
         gnumake
@@ -86,12 +88,13 @@
         nodejs
         python3
         gemini-cli
-        antigravity
+        antigravity-cli
         claude-code
         zed-editor
         vscode
         uv
         jdk
+        http-server
 
         # Terminal Utils
         kitty
@@ -109,6 +112,7 @@
         tealdeer
         tree
         unzip
+        file
         jq
         yq
         chezmoi

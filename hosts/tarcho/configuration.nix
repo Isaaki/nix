@@ -153,6 +153,9 @@
       gnome-disk-utility
       wayland-utils
       wl-clipboard
+      pipewire.jack
+      qt5.qtwayland
+      kdePackages.qtwayland
     ];
   };
 

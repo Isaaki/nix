@@ -22,6 +22,7 @@
     ../shared/pipewire.nix
     ../shared/zmk.nix
     ../shared/virt-manager.nix
+    ../shared/kde.nix
   ];
 
   services.xserver.videoDrivers = [
@@ -132,6 +133,9 @@
       gnome-disk-utility
       wayland-utils
       wl-clipboard
+      pipewire.jack
+      qt5.qtwayland
+      kdePackages.qtwayland
     ];
   };
 
